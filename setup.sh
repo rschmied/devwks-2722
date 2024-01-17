@@ -9,7 +9,7 @@ while : ; do
 	echo "bad input!"
 done
 
-pw=$(printf "%02ddevwks%02d" $pod $pod)
+pw=$(printf "%02dDevWks%02d" $pod $pod)
 
 cat >.env <<EOF
 export TF_VAR_username="pod${pod}"
