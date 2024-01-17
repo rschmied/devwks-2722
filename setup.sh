@@ -11,10 +11,13 @@ done
 
 pw=$(printf "%02ddevwks%02d" $pod $pod)
 
-cat >.secrets <<EOF
+cat >.env <<EOF
 export TF_VAR_username="pod${pod}"
 export TF_VAR_password="${pw}"
+export PATH=${HOME}/.local/bin:${PATH}
 EOF
 
-source .secrets
+echo "Your CML USERNAME is pod${pod}"
+echo "Your CML PASSWORD is ${pw}"
+echo "You need to source the environment using 'source .env'"
 
