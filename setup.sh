@@ -12,6 +12,7 @@ done
 pw=$(printf "%02dDevWks%02d" $pod $pod)
 
 cat >.env <<EOF
+export TF_VAR_address="https://cml.mine.nu"
 export TF_VAR_username="pod${pod}"
 export TF_VAR_password="${pw}"
 export PATH=${HOME}/.local/bin:${PATH}
