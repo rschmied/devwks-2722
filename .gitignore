@@ -32,6 +32,10 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-src
 .env
+
+__pycache__
+.pdm_python
+.ruff_cache
+.venv
 
