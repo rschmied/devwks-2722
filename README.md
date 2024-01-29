@@ -1,6 +1,6 @@
 # devwks-2722
 
-Repo for the DevNet Workshop 2722 / CiscoLive EMEA 2024 in Amsterdam
+Repo for the DevNet Workshop DEVWKS-2722 / CiscoLive EMEA 2024 in Amsterdam
 
 ## Links and references
 
