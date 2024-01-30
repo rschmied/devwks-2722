@@ -1,14 +1,14 @@
 terraform {
   required_providers {
     cml2 = {
-      source = "registry.terraform.io/ciscodevnet/cml2"
+      source  = "registry.terraform.io/ciscodevnet/cml2"
       version = ">=0.6.2"
     }
   }
 }
 
 provider "cml2" {
-  address = var.address
+  address  = var.address
   username = var.username
   password = var.password
 }
@@ -25,7 +25,7 @@ resource "cml2_node" "ext-conn-0" {
   configuration  = file("ext-conn-0-default.cfg")
   x              = -360
   y              = -120
-  tags           = [ "infra" ]
+  tags           = ["infra"]
 }
 
 resource "cml2_node" "unmanaged-switch-0" {
@@ -34,7 +34,7 @@ resource "cml2_node" "unmanaged-switch-0" {
   nodedefinition = "unmanaged_switch"
   x              = -200
   y              = -120
-  tags           = [ "infra" ]
+  tags           = ["infra"]
 }
 
 resource "cml2_node" "iol-0" {
@@ -54,45 +54,54 @@ resource "cml2_node" "server-0" {
   configuration  = file("server-0-iosxe_config.txt.cfg")
   x              = 120
   y              = -120
-  tags           = [ "access" ]
+  tags           = ["access"]
 }
 
 
 
 resource "cml2_link" "l0" {
-  lab_id         = cml2_lab.this.id
-  node_a         = cml2_node.ext-conn-0.id
-  slot_a         = 0
-  node_b         = cml2_node.unmanaged-switch-0.id
-  slot_b         = 0
+  lab_id = cml2_lab.this.id
+  node_a = cml2_node.ext-conn-0.id
+  slot_a = 0
+  node_b = cml2_node.unmanaged-switch-0.id
+  slot_b = 0
 }
 
 resource "cml2_link" "l1" {
-  lab_id         = cml2_lab.this.id
-  node_a         = cml2_node.unmanaged-switch-0.id
-  slot_a         = 1
-  node_b         = cml2_node.iol-0.id
-  slot_b         = 0
+  lab_id = cml2_lab.this.id
+  node_a = cml2_node.unmanaged-switch-0.id
+  slot_a = 1
+  node_b = cml2_node.iol-0.id
+  slot_b = 0
 }
 
 resource "cml2_link" "l2" {
-  lab_id         = cml2_lab.this.id
-  node_a         = cml2_node.iol-0.id
-  slot_a         = 1
-  node_b         = cml2_node.server-0.id
-  slot_b         = 0
+  lab_id = cml2_lab.this.id
+  node_a = cml2_node.iol-0.id
+  slot_a = 1
+  node_b = cml2_node.server-0.id
+  slot_b = 0
 }
 
 
 resource "cml2_lifecycle" "lc" {
-  lab_id     = cml2_lab.this.id
+  lab_id = cml2_lab.this.id
   # elements is needed for 0.7.0
-  elements   = []
+  elements = []
   # depends on is the "native" replacement for elements
   depends_on = [
     cml2_link.l0,
     cml2_link.l1,
     cml2_link.l2,
   ]
+  staging = {
+    stages = [
+      "infra",
+      "core",
+      "access"
+    ]
+    start_remaining = false
+  }
+
   state = "STARTED"
 }
