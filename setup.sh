@@ -18,6 +18,11 @@ export TF_VAR_password="${pw}"
 export PATH=${HOME}/.local/bin:${PATH}
 EOF
 
+# change the PaTTY port so that it's unique per pod
+port=$(( 2000 + $pod ))
+sed -i'-orig' -e '/pat:xxxx:22$/s/xxxx/'$port'/' micro.yaml
+sed -i'-orig' -e '/"pat:xxxx:22"/s/xxxx/'$port'/' solution/main.tf
+
 echo "Your CML USERNAME is pod${pod}"
 echo "Your CML PASSWORD is ${pw}"
 echo "You need to source the environment using 'source .env'"

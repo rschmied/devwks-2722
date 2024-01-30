@@ -44,7 +44,7 @@ resource "cml2_node" "iol-0" {
   configuration  = file("iol-0-ios_config.txt.cfg")
   x              = -40
   y              = -120
-  tags           = ["pat:2022:22", "core"]
+  tags           = ["pat:xxxx:22", "core"]
 }
 
 resource "cml2_node" "server-0" {

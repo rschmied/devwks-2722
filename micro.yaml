@@ -204,7 +204,7 @@ nodes:
     parameters: {}
     ram: null
     tags:
-      - pat:2022:22
+      - pat:xxxx:22
     x: -40
     y: -120
     interfaces:
