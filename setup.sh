@@ -21,7 +21,7 @@ EOF
 # change the PaTTY port so that it's unique per pod
 port=$(( 2000 + $pod ))
 sed -i'-orig' -e '/pat:xxxx:22$/s/xxxx/'$port'/' micro.yaml
-sed -i'-orig' -e '/"pat:xxxx:22"/s/xxxx/'$port'/' solution/main.tf
+sed -i'-orig' -e '/"pat:xxxx:22"/s/xxxx/'$port'/' solution/main_with_tags.tf
 
 echo "Your CML USERNAME is pod${pod}"
 echo "Your CML PASSWORD is ${pw}"
