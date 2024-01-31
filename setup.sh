@@ -23,7 +23,12 @@ port=$(( 2000 + $pod ))
 sed -i'-orig' -e '/pat:xxxx:22$/s/xxxx/'$port'/' micro.yaml
 sed -i'-orig' -e '/"pat:xxxx:22"/s/xxxx/'$port'/' solution/main_with_tags.tf
 
-echo "Your CML USERNAME is pod${pod}"
-echo "Your CML PASSWORD is ${pw}"
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+echo -e "Hello${GREEN} ralph was here ${NC}"
+echo -e "Your CML USERNAME is ${GREEN}pod${pod}${NC}"
+echo -e "Your CML PASSWORD is ${GREEN}${pw}${NC}"
+echo -e "The server URL is ${GREEN}https://cml.mine.nu{$NC}"
 echo "You need to source the environment using 'source .env'"
 
