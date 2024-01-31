@@ -26,9 +26,10 @@ sed -i'-orig' -e '/"pat:xxxx:22"/s/xxxx/'$port'/' solution/main_with_tags.tf
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
-echo -e "Hello${GREEN} ralph was here ${NC}"
+echo
 echo -e "Your CML USERNAME is ${GREEN}pod${pod}${NC}"
 echo -e "Your CML PASSWORD is ${GREEN}${pw}${NC}"
-echo -e "The server URL is ${GREEN}https://cml.mine.nu{$NC}"
+echo -e "The server URL is ${GREEN}https://cml.mine.nu${NC}"
+echo
 echo "You need to source the environment using 'source .env'"
 
