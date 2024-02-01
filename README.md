@@ -2,7 +2,13 @@
 
 Repo for the DevNet Workshop DEVWKS-2722 / CiscoLive EMEA 2024 in Amsterdam
 
-## Links and references
+## Learning Lab link
+
+Open the following link in your browser and log in using your preferred login method.  The login will appear on the second page after clicking "Start Learning" at the bottom right.
+<https://developer.cisco.com/learning/labs/devwks-2722/>
+
+
+## Other links and references
 
 - CML2 Terraform provider <https://registry.terraform.io/providers/CiscoDevNet/cml2/latest>
 - Terraform install <https://developer.hashicorp.com/terraform/install>
