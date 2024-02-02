@@ -11,8 +11,15 @@ done
 
 pw=$(printf "%02dDevWks%02d" $pod $pod)
 
+SERVERS=(
+        "https://cml.mine.nu"
+        "https://cml2.mine.nu"
+)
+count=${#SERVERS[@]}
+srv=${SERVERS[$(( $pod % $count ))]}
+
 cat >.env <<EOF
-export TF_VAR_address="https://cml.mine.nu"
+export TF_VAR_address="${srv}"
 export TF_VAR_username="pod${pod}"
 export TF_VAR_password="${pw}"
 export PATH=${HOME}/.local/bin:${PATH}
@@ -27,9 +34,9 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 echo
-echo -e "Your CML USERNAME is ${GREEN}pod${pod}${NC}"
-echo -e "Your CML PASSWORD is ${GREEN}${pw}${NC}"
-echo -e "The server URL is ${GREEN}https://cml.mine.nu${NC}"
+echo -e "CML USERNAME is\t ${GREEN}pod${pod}${NC}"
+echo -e "CML PASSWORD is\t ${GREEN}${pw}${NC}"
+echo -e "CML UI URL is\t ${GREEN}${srv}${NC}"
 echo
 echo "You need to source the environment using 'source .env'"
 
