@@ -14,81 +14,83 @@ provider "cml2" {
 }
 
 resource "cml2_lab" "this" {
-  title = "micro"
+  title = "clemea25-demo"
 }
 
 
-resource "cml2_node" "ext-conn-0" {
+resource "cml2_node" "access01" {
   lab_id         = cml2_lab.this.id
-  label          = "ext-conn-0"
-  nodedefinition = "external_connector"
-  configuration  = file("ext-conn-0-default.cfg")
-  x              = -360
-  y              = -120
-  tags           = ["infra"]
-}
-
-resource "cml2_node" "unmanaged-switch-0" {
-  lab_id         = cml2_lab.this.id
-  label          = "unmanaged-switch-0"
-  nodedefinition = "unmanaged_switch"
+  label          = "access01"
+  nodedefinition = "ioll2-xe"
+  configuration  = file("access01-ios_config.txt.cfg")
   x              = -200
-  y              = -120
-  tags           = ["infra"]
+  y              = 0
+  tags           = ["core"]
 }
 
-resource "cml2_node" "iol-0" {
+resource "cml2_node" "server01" {
   lab_id         = cml2_lab.this.id
-  label          = "iol-0"
-  nodedefinition = "iol-xe"
-  configuration  = file("iol-0-ios_config.txt.cfg")
-  x              = -40
-  y              = -120
-  tags           = ["pat:xxxx:22", "core"]
+  label          = "server01"
+  nodedefinition = "ioll2-xe"
+  configuration  = file("server01-ios_config.txt.cfg")
+  x              = 0
+  y              = 0
+  tags           = ["core"]
 }
 
-resource "cml2_node" "server-0" {
+resource "cml2_node" "firefox-0" {
+  lab_id          = cml2_lab.this.id
+  label           = "firefox-0"
+  nodedefinition  = "firefox"
+  imagedefinition = "firefox-buster"
+  configuration   = file("firefox-0-boot.sh.cfg")
+  x               = -400
+  y               = 0
+  tags            = ["clients"]
+}
+
+resource "cml2_node" "nginx-0" {
   lab_id         = cml2_lab.this.id
-  label          = "server-0"
-  nodedefinition = "server"
-  configuration  = file("server-0-iosxe_config.txt.cfg")
-  x              = 120
-  y              = -120
-  tags           = ["access"]
+  label          = "nginx-0"
+  nodedefinition = "nginx"
+  configuration  = file("nginx-0-boot.sh.cfg")
+  x              = 200
+  y              = 0
+  tags           = ["servers"]
 }
 
 
 
 resource "cml2_link" "l0" {
   lab_id = cml2_lab.this.id
-  node_a = cml2_node.ext-conn-0.id
+  node_a = cml2_node.access01.id
   slot_a = 0
-  node_b = cml2_node.unmanaged-switch-0.id
+  node_b = cml2_node.server01.id
   slot_b = 0
 }
 
 resource "cml2_link" "l1" {
   lab_id = cml2_lab.this.id
-  node_a = cml2_node.unmanaged-switch-0.id
-  slot_a = 1
-  node_b = cml2_node.iol-0.id
-  slot_b = 0
+  node_a = cml2_node.firefox-0.id
+  slot_a = 0
+  node_b = cml2_node.access01.id
+  slot_b = 1
 }
 
 resource "cml2_link" "l2" {
   lab_id = cml2_lab.this.id
-  node_a = cml2_node.iol-0.id
+  node_a = cml2_node.server01.id
   slot_a = 1
-  node_b = cml2_node.server-0.id
+  node_b = cml2_node.nginx-0.id
   slot_b = 0
 }
 
 
 resource "cml2_lifecycle" "lc" {
   lab_id = cml2_lab.this.id
-  # elements is needed for 0.7.0
-  elements = []
-  # depends on is the "native" replacement for elements
+  # elements is still required up to version 0.7.0
+  # elements = []
+  # depends_on is the "native" replacement for elements
   depends_on = [
     cml2_link.l0,
     cml2_link.l1,
@@ -96,12 +98,11 @@ resource "cml2_lifecycle" "lc" {
   ]
   staging = {
     stages = [
-      "infra",
       "core",
-      "access"
+      "servers",
+      "clients"
     ]
     start_remaining = false
   }
-
   state = "STARTED"
 }
