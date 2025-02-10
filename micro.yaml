@@ -438,9 +438,8 @@ nodes:
     data_volume: null
     hide_links: false
     id: n2
-    image_definition: firefox-buster
     label: firefox-0
-    node_definition: firefox
+    node_definition: noble
     parameters: {}
     ram: 512
     tags:
