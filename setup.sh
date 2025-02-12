@@ -10,6 +10,7 @@ while :; do
 done
 
 pw=$(printf "%02dDevWks%02d" $pod $pod)
+user=$(printf "pod%d" $pod)
 
 SERVERS=(
     "https://cml.mine.nu"
@@ -20,7 +21,7 @@ srv=${SERVERS[$(($pod % $count))]}
 
 cat >.env <<EOF
 export TF_VAR_address="${srv}"
-export TF_VAR_username="pod${pod}"
+export TF_VAR_username="${user}"
 export TF_VAR_password="${pw}"
 export PATH=${HOME}/.local/bin:${PATH}
 EOF
@@ -34,7 +35,7 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 echo
-echo -e "CML USERNAME is\t ${GREEN}pod${pod}${NC}"
+echo -e "CML USERNAME is\t ${GREEN}${user}${NC}"
 echo -e "CML PASSWORD is\t ${GREEN}${pw}${NC}"
 echo -e "CML UI URL is\t ${GREEN}${srv}${NC}"
 echo
